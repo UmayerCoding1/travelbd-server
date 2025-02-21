@@ -9,7 +9,8 @@ app.use(cors({
         "http://localhost:5173",
         "https://transcendent-cajeta-819efd.netlify.app",
         "https://travelbd-158bd.web.app",
-        "http://localhost:4173"
+        "http://localhost:4173",
+        "https://cs1m1jdk-5173.inc1.devtunnels.ms"
     ],
     credentials: true
 }));
