@@ -14,7 +14,8 @@ app.use(cors({
     ],
     credentials: true
 }));
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('../public/upload'))
 app.use(cookieParser())
 
@@ -22,12 +23,12 @@ app.use(cookieParser())
 // route import
 import userRoute from './routes/user.routes.js';
 import destinationsRoute from './routes/destination.routes.js';
-import hotelRoute from './routes/hotel.routes.js';
-
+import hotelRoutes from './routes/hotelBooking.routes.js';
 
 // route declaration
 app.use('/api/v1', userRoute);
 app.use('/api/v1', destinationsRoute);
-app.use('/api/v1', hotelRoute)
+app.use('/api/v1', hotelRoutes)
+
 
 export {app}
