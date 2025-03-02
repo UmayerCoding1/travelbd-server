@@ -25,6 +25,10 @@ const destinationBookingSchema = new Schema({
   people:{
     type: Number,
     require: true
+  },
+  status:{
+    type: String,
+    default: 'Pending',
   }
 },{timestamps: true});
 

@@ -10,6 +10,10 @@ const hotelSchema = new Schema({
         type: String,
         required: true,
     },
+    PrimaryLocation: {
+     type: String,
+     require: true
+    },
     star: {
         type: Number,
         require: true

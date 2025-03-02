@@ -13,7 +13,14 @@ const is_live = false;
 
 const getAllHotels = asyncHandler(async (req, res) => {
   try {
-    const hotels = await Hotel.find();
+    const {location} = req.query;
+    
+
+    const query = location && location.trim() !== '' ? {PrimaryLocation: {$regex: location, $options: 'i'}} : {};
+    console.log(query);
+    
+    
+    const hotels = await Hotel.find(query);
 
     if (!hotels) {
       throw new ApiError(404, 'Hotels not found')
@@ -45,21 +52,33 @@ const getHotelById = asyncHandler(async (req, res) => {
 })
 
 const getAllHotelBookings = asyncHandler(async (req, res) => {
-  const userEmail = req.query.email;
+  const {email,status} = req.query;
+  console.log(email,status);
+  
 
   const user = await User.findOne({
-    email: userEmail
+    email: email
   });
 
   if (!user) {
     throw new ApiError(404, 'User not found')
   }
 
-  const bookings = await hotelBooking.find({ cusEmail: userEmail }).populate('hotelId')
+   const query = {
+    ...(user && {
+      cusEmail: user?.email
+    }),
+    
+    ...(status && {
+      paymentStatus: status
+    })
+   }
+  const bookings = await hotelBooking.find(query).populate('hotelId')
 
-  if (!bookings.length) {
+  if (!bookings) {
     throw new ApiError(404, 'No booking found this email')
   }
+
 
   res
     .status(200)

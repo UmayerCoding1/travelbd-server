@@ -23,7 +23,7 @@ app.use(cookieParser())
 // route import
 import userRoute from './routes/user.routes.js';
 import destinationsRoute from './routes/destination.routes.js';
-import hotelRoutes from './routes/hotelBooking.routes.js';
+import hotelRoutes from './routes/hotel.routes.js';
 
 // route declaration
 app.use('/api/v1', userRoute);
