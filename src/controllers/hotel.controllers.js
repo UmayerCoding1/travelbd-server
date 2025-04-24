@@ -53,8 +53,7 @@ const getHotelById = asyncHandler(async (req, res) => {
 
 const getAllHotelBookings = asyncHandler(async (req, res) => {
   const {email,status} = req.query;
-  console.log(email,status);
-  
+
 
   const user = await User.findOne({
     email: email

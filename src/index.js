@@ -20,6 +20,3 @@ app.listen(port, () => {
 })
 
 })
-.catch(err => {
-    // console.log(`MongoDB connect failed!!!!`, err);
-})

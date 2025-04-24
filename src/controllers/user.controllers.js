@@ -28,6 +28,20 @@ const generateAccessAndRefreshToken = async (userId) => {
   }
 };
 
+
+const getAllUser = asyncHandler(async(req,res) => {
+     try {
+      const allUsers = await User.find();
+      res.status(201).json({message: "All users fetch successfully", allUsers, success: true})
+     } catch (error) {
+      console.log(error);
+      res.status(500).json({message: "Internal server error", success: false})
+      
+     }
+
+
+})
+
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, userName } = req.body;
 
@@ -255,6 +269,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
   }
 
   const avatar = await uploadCloudinary(avatarImg);
+console.log(avatar);
 
   const user = await User.findByIdAndUpdate(
     req.user._id,
@@ -310,5 +325,6 @@ export {
   loggedUser,
   updateUserInfo,
   updateAvatar,
-  changePassword
+  changePassword,
+  getAllUser
 };

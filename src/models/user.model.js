@@ -40,7 +40,8 @@ const userSchema = new Schema({
     },
     roll:{
         type: String,
-        default: 'user'
+        default: 'user',
+        enum: ['user', 'admin']
     },
     gender: {
         type: String,

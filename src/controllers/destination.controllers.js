@@ -11,13 +11,20 @@ import { DestinationBooking } from "../models/destination.booking.model.js";
 const getAllDestinations = asyncHandler(async (req, res) => {
   const { location } = req.query;
 
-  const query = location && location.trim() !== ""
-    ? { title: { $regex: location, $options: "i" } }
-    : {};
-    console.log(query);
+  
+  
+ 
+    const query  =  location !=='undefined' ?{title : { $regex: location, $options: "i" }} : {};
+  
+
+    console.log(
+      "location: ", query,
+    );
+    
     
 
   const destinations = await Destination.find(query);
+  
 
   return res.send({
     status: 200,

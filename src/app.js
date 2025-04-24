@@ -24,11 +24,15 @@ app.use(cookieParser())
 import userRoute from './routes/user.routes.js';
 import destinationsRoute from './routes/destination.routes.js';
 import hotelRoutes from './routes/hotel.routes.js';
+import adminRouter from './routes/admin.routes.js';
+import locationRoutes from './routes/location.routes.js';
 
 // route declaration
 app.use('/api/v1', userRoute);
+app.use('/api/v1', locationRoutes);
 app.use('/api/v1', destinationsRoute);
-app.use('/api/v1', hotelRoutes)
+app.use('/api/v1', hotelRoutes);
+app.use('/api/v1', adminRouter)
 
 
 export {app}
