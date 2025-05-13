@@ -5,9 +5,9 @@ import { verifyToken } from '../middlewares/verifyToken.middleware.js';
 import { getAllUser } from '../controllers/user.controllers.js';
 
 
-const router = express.Router();
+export const router = express.Router();
 
 router.post('/admin/add-location',verifyToken, verifyAdmin, addlocation);
-router.get('/all-users',verifyToken,verifyAdmin,getAllUser);
+
 
 export default(router);

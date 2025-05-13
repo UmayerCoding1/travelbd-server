@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 connectDB()
 .then(() => {
     app.on('error', (error) => {
-        // console.log('Error', error);
+
         throw(error)
     })
 app.get('/', (req,res) => {

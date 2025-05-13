@@ -17,9 +17,7 @@ const getAllDestinations = asyncHandler(async (req, res) => {
     const query  =  location !=='undefined' ?{title : { $regex: location, $options: "i" }} : {};
   
 
-    console.log(
-      "location: ", query,
-    );
+   
     
     
 

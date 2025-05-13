@@ -5,9 +5,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { uploadCloudinary } from "../utils/cloudinary.js";
 import bcrypt  from 'bcrypt';
+
+
 const generateAccessAndRefreshToken = async (userId) => {
   try {
-    console.log(userId);
+
     if (!userId) {
       throw new ApiError(500, 'User is not define')
     }
@@ -40,7 +42,7 @@ const getAllUser = asyncHandler(async(req,res) => {
      }
 
 
-})
+});
 
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, userName } = req.body;
@@ -71,7 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const createdUser = await User.findById(user._id).select(
     "-password  -refreshToken"
   );
-  // console.log(createdUser);
+
 
   if (!createdUser)
     throw new ApiError(500, "Something went wrong while registering the user");
@@ -124,7 +126,7 @@ const loginUser = asyncHandler(async (req, res) => {
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     maxAge: 15 * 60 * 1000, // 15 minutes
   };
-  // console.log(option);
+
 
   return res
     .status(200)
@@ -175,7 +177,7 @@ const refreshPage = asyncHandler(async (req, res) => {
     // verify Token
     const playLoad = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     if (!playLoad) {
-      console.log("Error");
+      throw new ApiError(401, "Invalid token");
     }
 
     const user = await User.findById(playLoad._id).select(
@@ -269,7 +271,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
   }
 
   const avatar = await uploadCloudinary(avatarImg);
-console.log(avatar);
+
 
   const user = await User.findByIdAndUpdate(
     req.user._id,
@@ -281,7 +283,7 @@ console.log(avatar);
     { new: true, runValidators: true }
   ).select("-password -refreshToken");
 
-  // console.log(user);
+  
 
   res
     .status(200)
@@ -315,8 +317,34 @@ const changePassword = asyncHandler(async(req,res) => {
     
     
     return res.status(202).json(new ApiResponse(202, {changUserPassword}, 'Password update successfully'))
-})
+});
 
+
+const deleteUserById = asyncHandler(async(req,res) => {
+   const userId = req.params.userId;
+  
+   
+   if (!userId) {
+    res.status(404).json({message: 'User id not found', success: false});
+   }
+  try {
+     const user =await User.findByIdAndDelete({_id:userId});
+     
+     if (!user) {
+       return res.status(404).json({message: "User not found", success: false})
+       
+      }
+      const allUsers = await User.find();
+      
+      
+     return res.status(201).json({message: "User delete successfully",allUsers, success: true})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message: "Internal server error", success: false})
+    
+  }
+   
+ });
 export {
   registerUser,
   loginUser,
@@ -326,5 +354,6 @@ export {
   updateUserInfo,
   updateAvatar,
   changePassword,
-  getAllUser
+  getAllUser,
+  deleteUserById
 };

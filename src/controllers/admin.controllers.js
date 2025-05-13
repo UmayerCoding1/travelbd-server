@@ -12,7 +12,7 @@ const addlocation = asyncHandler(async(req,res) => {
     }
 
     const newLocation = new Location({ name, country, city });
-    console.log('add new location', newLocation);
+   
     
     await newLocation.save();
 

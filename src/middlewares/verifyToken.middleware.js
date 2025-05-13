@@ -9,6 +9,7 @@ const verifyToken = asyncHandler(async (req, res, next) => {
     const token =
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");
+     
 
     if (!token) {
       res.status(401).json(new ApiResponse(401, {}, "UnAuthorization access"));
@@ -28,7 +29,14 @@ const verifyToken = asyncHandler(async (req, res, next) => {
 
     next();
   } catch (error) {
-    // console.log(error);
+    console.log(error);
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json(new ApiResponse(401, {}, "Token expired"));
+    }
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json(new ApiResponse(401, {}, "Invalid token"));
+    }
+    return res.status(500).json(new ApiResponse(500, {}, "Internal server error"));
   }
 });
 
